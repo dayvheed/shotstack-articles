@@ -16,7 +16,7 @@ To use Shotstack [<ins>Python video editing SDK</ins>](https://github.com/shotst
 
 Next, you’d need to install the [<ins>Shotstack Python SDK</ins>](https://pypi.org/project/shotstack-sdk/) using pip. Open Shell or Terminal and type in the command below.
 
-pip install shotstack-sdk
+`pip install shotstack-sdk`
 
   
 
@@ -27,10 +27,10 @@ Before we delve into Python codes, let’s discuss the fundamental steps when us
 ### Step 1: Import the relevant Shotstack methods. 
 
 For now, we shall import the shotstack method and the edit_api method using the import statements below.
-
+`
 import shotstack_sdk as   shotstack
 
-from shotstack_sdk.api import edit_api
+from shotstack_sdk.api import edit_api`
 
   
 
@@ -38,30 +38,31 @@ from shotstack_sdk.api import edit_api
 
 For Shotstack, it is "[<ins>https://api.shotstack.io/stage</ins>](https://api.shotstack.io/stage)".
 
-host = "https://api.shotstack.io/stage"
-
+`host = "https://api.shotstack.io/stage"
+`
   
 
 ### Step 3: Create a configuration object and store your API key. 
 
 You’d need to instantiate a variable from the configuration class that stores your API staging key.
 
+`
 configuration = shotstack.Configuration(host=host)
 
-configuration.api_key\["DeveloperKey"\] = {insert your API staging key here as a string}
+configuration.api_key\["DeveloperKey"\] = {insert your API staging key here as a string}`
 
 ### Step 4: Create an API client and an instance of API calls. 
 
-The API client defines who is making the API requests. To create an API client, the ApiClient() class is called and the configuration object is passed as an argument. This process allows Shotshock to identify you as the one sending the API calls.
+The API client defines who is making the API requests. To create an API client, the `ApiClient()` class is called and the configuration object is passed as an argument. This process allows Shotshock to identify you as the one sending the API calls.
 
-After creating the API client, you’d need to create an instance of the API calls inside the with block. Since we are performing editing operations, the edit_api() method is used. It takes the API client earlier defined as a parameter.
+After creating the API client, you’d need to create an instance of the API calls inside the with block. Since we are performing editing operations, the `edit_api()` method is used. It takes the API client earlier defined as a parameter.
 
-#properly access the resources in the API
+`#properly access the resources in the API
 
 with   shotstack.ApiClient(configuration) as   api_client: #this creates an API client
 
  api_instance = edit_api.EditApi(api_client) #this creates an instance of API calls.
-
+`
   
 
 We use the with statement in Python to properly access the resources in the API. It also ensures the resources are called once we are done with our API requests.
@@ -70,19 +71,19 @@ Note that the rest of the code will be inside the with statement block.
 
 ### Step 5: Create an asset. 
 
-An asset is the file you wish to edit. If you want to edit a video file, a VideoAsset() class is used to create a video asset. Conversely, the ImageAsset() class creates an image asset while the HtmlAsset() creates an HTML asset.
+An asset is the file you wish to edit. If you want to edit a video file, a `VideoAsset()` class is used to create a video asset. Conversely, the `ImageAsset()` class creates an image asset while the `HtmlAsset()` creates an HTML asset.
 
   
 
 ### Step 6: Create a clip. 
 
-A clip is the portion of the asset you wish to import to Shotstack. The Clip() class is used to create a clip.
+A clip is the portion of the asset you wish to import to Shotstack. The `Clip()` class is used to create a clip.
 
   
 
 ### Step 7: Create a track. 
 
-A track is simply a combination of clips. The Track() class which is used to create a track requires a list of clips as an argument.
+A track is simply a combination of clips. The `Track()` class which is used to create a track requires a list of clips as an argument.
 
   
 
@@ -102,15 +103,15 @@ After creating the timeline, the next step is to define how you want the outfile
 
 ### Step 10: Define the final edit object. 
 
-Finally, you would need to capture your timeline and output settings in one object. The Edit() class is used to create the edit object. 
+Finally, you would need to capture your timeline and output settings in one object. The `Edit()` class is used to create the edit object. 
 
   
 
 ### Step 11: Render the edit object. 
 
-Once you have an edit object that captures the timeline and output, you will require the post\_render() method of the api\_instance() function to render the edit. 
+Once you have an edit object that captures the timeline and output, you will require the `post_render()` method of the `api_instance()` function to render the edit. 
 
-api_instance.post_render({insert the edit object here})
+`api_instance.post_render({insert the edit object here})`
 
   
 
@@ -124,10 +125,10 @@ Looking back, Step 1 to Step 12 is the framework for making video edits with the
 
 ## Trimming a Video
 
-Trimming simply defines where the imported video should begin. The VideoAsset() class which is used to create a video takes the source (src) as a required argument. It also takes the trim argument which defines the time (in seconds) the video should be trimmed. To trim a video, pass the trim argument when calling VideoAsset() class.
+Trimming simply defines where the imported video should begin. The `VideoAsset()` class which is used to create a video takes the source (src) as a required argument. It also takes the trim argument which defines the time (in seconds) the video should be trimmed. To trim a video, pass the trim argument when calling `VideoAsset()` class.
 
 The source is the link to the video, hosted in a public repository. We’d use Amazon AWS S3 to host a [<ins>sample video</ins>](https://shotstackvideo.s3.amazonaws.com/video.mp4). Let’s say we’d like to trim the first 5 seconds of the video, we set trim to be 5.0
-
+`
 from shotstack\_sdk.model.video\_asset import VideoAsset
 
 video_asset = VideoAsset(
@@ -137,12 +138,12 @@ video_asset = VideoAsset(
  trim = 5.0
 
    )
-
+`
   
 
-Next, we define the clip and pass the video_asset as an argument. The start and length variables are also required when calling the Clip() class. They define the seconds the video would start playing and how long the video will last for. If the start argument is set to a value greater than 0, the video displays a black screen until that time in seconds is reached.
+Next, we define the clip and pass the video_asset as an argument. The start and length variables are also required when calling the `Clip()` class. They define the seconds the video would start playing and how long the video will last for. If the start argument is set to a value greater than 0, the video displays a black screen until that time in seconds is reached.
 
-from shotstack_sdk.model.clip import Clip
+`from shotstack_sdk.model.clip import Clip
 
 video_clip = Clip(
 
@@ -152,29 +153,29 @@ video_clip = Clip(
 
  length = 20.0
 
-   )
+   )`
 
   
 
 Next, we define the track and pass this single video_clip variable as a list.
 
-from shotstack_sdk.model.track import Track
+`from shotstack_sdk.model.track import Track
 
-track = Track(clips = \[video_clip\])
+track = Track(clips = \[video_clip\])`
 
   
 
 Afterwards, we define the timeline and pass a list of tracks. For now, we have one one track.
 
-from shotstack_sdk.model.track import Timeline
+`from shotstack_sdk.model.track import Timeline
 
-timeline = Timeline(tracks=\[track\])
+timeline = Timeline(tracks=\[track\])`
 
   
 
 Next, we define the output. Let’s say we want an mp4 file with an SD resolution.
 
-from shotstack_sdk.model.output import Output
+`from shotstack_sdk.model.output import Output
 
 output = Output(
 
@@ -183,12 +184,12 @@ output = Output(
  resolution = "sd"
 
 )
-
+`
   
 
 We then define the edit object and pass the timeline and output as arguments.
 
-from shotstack_sdk.model.edit import Edit
+`from shotstack_sdk.model.edit import Edit
 
 edit = Edit(
 
@@ -196,13 +197,13 @@ edit = Edit(
 
  output = output
 
-   )
+   )`
 
   
 
-Finally, we render the edit with the post_render() method and pass the edit object as argument. To be sure we don’t break our code due to errors, we can wrap this step in a try-except block as shown below.
+Finally, we render the edit with the `post_render()` method and pass the edit object as argument. To be sure we don’t break our code due to errors, we can wrap this step in a try-except block as shown below.
 
-#render the video edit
+`#render the video edit
 
 try:
 
@@ -216,7 +217,7 @@ try:
 
 except   Exception   as   e:
 
- print(f"An error occurred: {e}")
+ print(f"An error occurred: {e}")`
 
   
 
@@ -230,7 +231,7 @@ The rendered video can be found circled in the screenshot and is shown [<ins>her
 
 Putting it all together, here is the entire code for this example.
 
-#import necessary libraries
+`#import necessary libraries
 
 import shotstack_sdk as   shotstack
 
@@ -314,17 +315,17 @@ with   shotstack.ApiClient(configuration) as   api_client: #this defines the API
 
  except   Exception   as   e:
 
- print(f"An error occurred: {e}")
+ print(f"An error occurred: {e}")`
 
   
 
 ## Using the Merging Asset
 
-The MergeAsset() class is used to create reusable templates for videos. Let’s say you want to make a video that begins with a personalized welcome message with specific names. You can use the MergeAsset() class to dynamically replace the names of the receiver.
+The `MergeAsset()` class is used to create reusable templates for videos. Let’s say you want to make a video that begins with a personalized welcome message with specific names. You can use the `MergeAsset()` class to dynamically replace the names of the receiver.
 
-To do this, we’d first instantiate a title variable for the video with the TitleAsset() class which takes a text as a compulsory argument. The placeholder is represented with double curly braces {{}}. You can also customize the position of the text, style, background, size, color, etc. 
+To do this, we’d first instantiate a title variable for the video with the `TitleAsset()` class which takes a text as a compulsory argument. The placeholder is represented with double curly braces {{}}. You can also customize the position of the text, style, background, size, color, etc. 
 
-from shotstack\_sdk.model.title\_asset import TitleAsset
+`from shotstack\_sdk.model.title\_asset import TitleAsset
 
 title_asset = TitleAsset(
 
@@ -341,12 +342,12 @@ title_asset = TitleAsset(
  position = 'center'
 
    )
-
+`
   
 
 This title asset must then be added to a clip. If we want the title to be displayed for the first two minutes, the start argument is set to 0, and the length is set to 2.
 
-title_clip = Clip(
+`title_clip = Clip(
 
  asset = title_asset,
 
@@ -354,23 +355,23 @@ title_clip = Clip(
 
  length = 2.0
 
-   )
+   )`
 
   
 
-The Clip() class has many other non-compulsory arguments. Check out [<ins>Shotstack video editing Python documentation</ins>](https://github.com/shotstack/shotstack-sdk-python) to determine other non-compulsory arguments that can be passed.
+The `Clip()` class has many other non-compulsory arguments. Check out [<ins>Shotstack video editing Python documentation</ins>](https://github.com/shotstack/shotstack-sdk-python) to determine other non-compulsory arguments that can be passed.
 
   
 
 Next, we add both title clip and video clip to the track. 
 
-track = Track(clips = \[video_clip, title_clip\])
+`track = Track(clips = \[video_clip, title_clip\])`
 
   
 
-We then instantiate the MergeAsset() class. The class takes two required arguments: key and replace. Key is simply the field you want replaced while replace is what you want to replace it with. In our case, the key is NAME and if the video is to show a text, “Welcome, David”, the replace is set to be David.
+We then instantiate the `MergeAsset()` class. The class takes two required arguments: `key` and `replace`. Key is simply the field you want replaced while replace is what you want to replace it with. In our case, the key is NAME and if the video is to show a text, “Welcome, David”, the replace is set to be David.
 
-from shotstack\_sdk.model.merge\_field import MergeField
+`from shotstack\_sdk.model.merge\_field import MergeField
 
 merge_field = MergeField(
 
@@ -378,13 +379,13 @@ merge_field = MergeField(
 
  replace ='David'
 
-   )
+   )`
 
   
 
 Finally, you add the mergeField variable to the edit() function as a list. 
 
-edit = Edit(
+`edit = Edit(
 
  timeline = timeline,
 
@@ -392,7 +393,7 @@ edit = Edit(
 
  merge = \[merge_field\]
 
-   )
+   )`
 
   
 
@@ -402,7 +403,7 @@ Adding these blocks of codes to the initial code, the rendered video is shown [<
 
 The full code for this exercise is shown below.
 
-#import necessary libraries
+`#import necessary libraries
 
 import shotstack_sdk as   shotstack
 
@@ -544,15 +545,15 @@ with   shotstack.ApiClient(configuration) as   api_client: #this encapsulate API
 
  except   Exception   as   e:
 
- print(f"An error occurred: {e}")
+ print(f"An error occurred: {e}")`
 
   
 
 ## Adding Transitions
 
-Transitions define what happens at the beginning and end of a clip. In the last example, we did not define any transition in the title clip and video clip. Thus, the video clip appeared sharply after the title clip. Let’s change that. If, say, we want the title and video clip to fade in and out, this is defined in the Transition() class.
+Transitions define what happens at the beginning and end of a clip. In the last example, we did not define any transition in the title clip and video clip. Thus, the video clip appeared sharply after the title clip. Let’s change that. If, say, we want the title and video clip to fade in and out, this is defined in the `Transition()` class.
 
-from shotstack_sdk.model.transition import Transition
+`from shotstack_sdk.model.transition import Transition
 
 transition = Transition(
 
@@ -560,15 +561,15 @@ _in = 'fade',
 
 out = 'fade'
 
-)
+)`
 
   
 
-Note that the ‘in’ argument has a trailing underscore (_in) because ‘in’ is a reserved keyword in Python. 
+Note that the `in` argument has a trailing underscore `_in` because `in` is a reserved keyword in Python. 
 
 Now that the fade transition has been defined, we can add it as an argument in both video and title clips.
 
-video_clip = Clip(
+`video_clip = Clip(
 
  asset = video_asset,
 
@@ -591,14 +592,14 @@ title_clip = Clip(
  transition = transition
 
    )
-
+`
   
 
 After running the code, the rendered video now has a transition as shown [<ins>here</ins>](https://cdn.shotstack.io/au/stage/kkmmg0oca0/d6e569ae-998f-4a22-a1e1-251ad15dca61.mp4?_gl=1*2mbapy*_ga*NjYwMDk3NzgzLjE2NjM2NTc3NDE.*_ga_0KPVTRT370*MTY2NDk3MjQ0OC4xNC4xLjE2NjQ5NzY1MzIuMC4wLjA.&_ga=2.96548447.1979803603.1664818817-660097783.1663657741).
 
 The entire code for this example is shown below.
 
-#import necessary libraries
+`#import necessary libraries
 
 import shotstack_sdk as   shotstack
 
@@ -757,14 +758,14 @@ with   shotstack.ApiClient(configuration) as   api_client: #this encapsulate API
  except   Exception   as   e:
 
  print(f"An error occurred: {e}")
-
+`
   
 
 ## Adding a Soundtrack
 
-You can add a soundtrack to a video clip by instantiating the Soundtrack class. The class takes the source (src) of the soundtrack as a required argument. Once again, the music file should be hosted online with its link publicly accessible. You may also define the effect and the volume of the soundtrack. Let’s define the soundtrack to fade in and fade out, and then set the volume to 1.
+You can add a soundtrack to a video clip by instantiating the `Soundtrack()` class. The class takes the source `src` of the soundtrack as a required argument. Once again, the music file should be hosted online with its link publicly accessible. You may also define the effect and the volume of the soundtrack. Let’s define the soundtrack to fade in and fade out, and then set the volume to 1.
 
-from shotstack_sdk.model.soundtrack import Soundtrack
+`from shotstack_sdk.model.soundtrack import Soundtrack
 
 soundtrack = Soundtrack(
 
@@ -775,14 +776,14 @@ soundtrack = Soundtrack(
  volume = 1.0
 
 )
-
+`
   
 
 To ensure the soundtrack reflects in the rendered video, we’d need to add it to the timeline.
 
-timeline = Timeline(tracks=\[track\],
+`timeline = Timeline(tracks=\[track\],
 
- soundtrack=soundtrack)
+ soundtrack=soundtrack)`
 
   
 
@@ -790,7 +791,7 @@ Rendering this produces the video with a soundtrack faded in and out. The render
 
 The entire code for this example is shown below.
 
-#import necessary libraries
+`#import necessary libraries
 
 import shotstack_sdk as   shotstack
 
@@ -965,12 +966,12 @@ with   shotstack.ApiClient(configuration) as   api_client: #this encapsulate API
  except   Exception   as   e:
 
  print(f"An error occurred: {e}")
-
+`
 ## Cropping a Video
 
-To crop video, we use the Crop() class. It takes optional arguments: top, bottom, left and right. Each represents the length of the video that would be cropped. Let’s say we wish to crop the video from top and bottom by 0.2 inches and, left and right by 0.05 inches. We can write the following code.
+To crop video, we use the `Crop()` class. It takes optional arguments: top, bottom, left and right. Each represents the length of the video that would be cropped. Let’s say we wish to crop the video from top and bottom by 0.2 inches and, left and right by 0.05 inches. We can write the following code.
 
-from shotstack_sdk.model.crop import Crop
+`from shotstack_sdk.model.crop import Crop
 
 crop = Crop(
 
@@ -982,13 +983,13 @@ crop = Crop(
 
  right = 0.05
 
-)
+)`
 
   
 
-This crop variable has to be passed as an argument in the VideoAsset() object we want to crop. 
+This crop variable has to be passed as an argument in the `VideoAsset()` object we want to crop. 
 
-video_clip = Clip(
+`video_clip = Clip(
 
  asset = video_asset,
 
@@ -1001,11 +1002,11 @@ video_clip = Clip(
  crop = crop
 
    ) 
-
+`
   
 
 The entire code can be found here  
-#import necessary libraries
+`#import necessary libraries
 
 import shotstack_sdk as   shotstack
 
@@ -1195,15 +1196,15 @@ with   shotstack.ApiClient(configuration) as   api_client: #this encapsulate API
 
  except   Exception   as   e:
 
- print(f"An error occurred: {e}")
+ print(f"An error occurred: {e}")`
 
   
 
 ## Transforming a Video
 
-The Transformation() class is used to transform a video. It takes rotate, skew and flip as arguments. These objects must however be created beforehand using the RotateTransformation(), SkewTransformation, and FlipTransformation() class respectively. For now, we’d only define a rotation of 10 degrees with the RotateTransformation() class. You can check these [<ins>Python demos</ins>](https://github.com/shotstack/python-demos) to learn how to define the other transformations.
+The `Transformation()` class is used to transform a video. It takes rotate, skew and flip as arguments. These objects must however be created beforehand using the `RotateTransformation()`, `SkewTransformation()`, and `FlipTransformation()` class respectively. For now, we’d only define a rotation of 10 degrees with the `RotateTransformation()` class. You can check these [<ins>Python demos</ins>](https://github.com/shotstack/python-demos) to learn how to define the other transformations.
 
-from shotstack\_sdk.model.rotate\_transformation import RotateTransformation
+`from shotstack\_sdk.model.rotate\_transformation import RotateTransformation
 
 rotate = RotateTransformation(
 
@@ -1211,23 +1212,23 @@ rotate = RotateTransformation(
 
 )
 
-  
+  `
 
-Now, we can instantiate the Transformation() class and pass the transformation variable.
+Now, we can instantiate the `Transformation()` class and pass the transformation variable.
 
-from shotstack_sdk.model.transformation import Transformation
+`from shotstack_sdk.model.transformation import Transformation
 
 transformation = Transformation(
 
  rotate  = rotate
 
-       )
+       )`
 
   
 
 And then finally, we add the transformation object to the video clip.
 
-video_clip = Clip(
+`video_clip = Clip(
 
  asset = video_asset,
 
@@ -1240,14 +1241,14 @@ video_clip = Clip(
  transform = transformation
 
    )
-
+`
   
 
 When you run the code, the output is rotated as expected. The result is shown [<ins>here</ins>](https://cdn.shotstack.io/au/stage/kkmmg0oca0/c53f3638-b62e-471b-bed9-b0fd0d5d54e6.mp4?_ga=2.95499740.1979803603.1664818817-660097783.1663657741&_gl=1*1wed3qb*_ga*NjYwMDk3NzgzLjE2NjM2NTc3NDE.*_ga_0KPVTRT370*MTY2NDk4NTg1OS4xNy4xLjE2NjQ5ODYxOTguMC4wLjA.).
 
 The entire code for this example is shown below.
 
-#import necessary libraries
+`#import necessary libraries
 
 import shotstack_sdk as   shotstack
 
@@ -1457,7 +1458,7 @@ with   shotstack.ApiClient(configuration) as   api_client: #this encapsulate API
 
  except   Exception   as   e:
 
- print(f"An error occurred: {e}")
+ print(f"An error occurred: {e}")`
 
   
 
@@ -1469,21 +1470,21 @@ Adding overlays means you wish to have more than two tracks with different clips
 
   
 
-We’d need to create an ImageAsset() and add the image.
+We’d need to create an `ImageAsset()` and add the image.
 
-from shotstack\_sdk.model.image\_asset import ImageAsset
+`from shotstack\_sdk.model.image\_asset import ImageAsset
 
 image_asset = ImageAsset(
 
  src = "https://shotstackvideo.s3.amazonaws.com/simone-hutsch-rvqkKbx-dVo-unsplash.jpg"
 
-   )
+   )`
 
   
 
 Next, we create another clip with this image and pass the image_asset as argument. The opacity will also be set to a low value (say 0.2) since we want the image to faintly appear in the background.
 
-image_clip = Clip(
+`image_clip = Clip(
 
  asset = image_asset,
 
@@ -1492,24 +1493,24 @@ image_clip = Clip(
  length = 20.0,
 
  opacity = 0.2)
-
+`
   
 
 We’d then need to create another track and add the image\_clip. Let’s call it track\_2 while the existing video and title clip will be track_1.
 
-#combine both video and title clip
+`#combine both video and title clip
 
 track_1 = Track(clips = \[video\_clip, title\_clip\])
 
 track_2 = Track(clips = \[image_clip\])
-
+`
   
 
 Finally, we need to add both tracks to the timeline as a list. Note that the order of the tracks matter. Since we want the image as a background while the video plays, the image\_clip (in track\_2) will be the first element of the list. 
-
+`
 timeline = Timeline(tracks=\[track\_2, track\_1\],
 
- soundtrack=soundtrack)
+ soundtrack=soundtrack)`
 
   
 
@@ -1517,7 +1518,7 @@ Running the code, the rendered video is rotated as expected and is shown [<ins>h
 
 The entire code for this example is shown below.
 
-#import necessary libraries
+`#import necessary libraries
 
 import shotstack_sdk as   shotstack
 
@@ -1723,7 +1724,7 @@ with   shotstack.ApiClient(configuration) as   api_client: #this encapsulate API
 
  except   Exception   as   e:
 
- print(f"An error occurred: {e}")
+ print(f"An error occurred: {e}")`
 
   
 
