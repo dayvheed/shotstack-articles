@@ -7,7 +7,7 @@ By the end of this tutorial, you would have understood how to automate video edi
 
 ## Getting the Basics
 
-First off, to follow along in this tutorial, you will require a decent knowledge of Python. We’d be using a special video editing library called Shotstock. Shotstack is a **video editing Python library that **provides video editing API and rendering infrastructure, enabling one to build workflows and automate video generation using code.
+First off, to follow along in this tutorial, you will require a decent knowledge of Python. We’d be using a special video editing library called Shotstock. Shotstack is a **video editing Python library** thatprovides video editing API and rendering infrastructure, enabling one to build workflows and automate video generation using code.
 
 To use Shotstack [Python video editing SDK](https://github.com/shotstack/shotstack-sdk-python), you’d first need to create a Shotstack account. Head over to [Shotstack's official website](https://shotstack.io/) and sign up. Once you have an account created, click on your name in the top-right corner, and then the ‘API keys’ button. You’d find your staging API key and your production API key. For this tutorial, we shall use the staging API key so have that copied somewhere safe.
 
